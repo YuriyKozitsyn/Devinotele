@@ -23,6 +23,7 @@ namespace Scheduler.Providers
             using (var sqlConnection =
                 new SqlConnection(DatabaseConnection))
             {
+                //{"DelayDateTime":"09-22-2016","Destination":"Destination","Id":1,"Source":"Source","Text":"Text","Type":5}
                 using (var command = new SqlCommand("GetMessagesByDate", sqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -31,6 +32,7 @@ namespace Scheduler.Providers
                     command.Parameters.Add(new SqlParameter("@param1", dateTime));
 
                     sqlConnection.Open();
+
                     using (var dr = command.ExecuteReader())
                     {
                         while (dr.Read())

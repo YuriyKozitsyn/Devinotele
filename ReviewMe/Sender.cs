@@ -34,17 +34,33 @@ namespace Scheduler
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(exchange: "messages", type: "direct");
 
-                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RabbitMessage() {
+                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RabbitMessage()
+                {
                     Destination = message.Destination,
                     Source = message.Source,
-                    Text = message.Text}));
+                    Text = message.Text
+                }));
 
-                channel.BasicPublish(exchange: "messages",
+                channel.QueueDeclare(queue: message.Type.ToString(),
+                                 durable: false,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
+                channel.BasicPublish(exchange: "",
                                      routingKey: message.Type.ToString(),
                                      basicProperties: null,
                                      body: body);
+
+                //channel.ExchangeDeclare(exchange: "messages", type: "direct");
+
+                
+
+                //channel.BasicPublish(exchange: "MyEx",
+                //                     routingKey: message.Type.ToString(),
+                //                     basicProperties: null,
+                //                     body: body);
                 _logger.Info($"Sent {message}");
             }
         }

@@ -5,7 +5,8 @@ namespace Scheduler.Providers
 {
     public static class ReaderHelper
     {
-        public static T GetColumnValue<T>(this IDataReader record, string columnName)
+        public
+            static T GetColumnValue<T>(this IDataReader record, string columnName)
         {
             var value = record[columnName];
             if (value == null || value == DBNull.Value)

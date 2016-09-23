@@ -28,24 +28,28 @@ namespace Scheduler
 
         public override void Start()
         {
-           var aTimer = new Timer(TimeSpan.FromMinutes(2).TotalMilliseconds);
-            aTimer.Elapsed += OnTimedEvent;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
+            OnTimedEvent(null, null);
+           //var aTimer = new Timer(TimeSpan.FromSeconds(2).TotalMilliseconds);
+           // aTimer.Elapsed += OnTimedEvent;
+           // aTimer.AutoReset = true;
+           // aTimer.Enabled = true;
         }
 
         private void OnTimedEvent(object s, ElapsedEventArgs e)
         {
+            
+
             var messagesByDate = _messageDataProvider.GetMessagesByDate(DateTime.Now);
 
             _logger.Debug($"Получили {messagesByDate.Count()} сообщений");
-            _messageDataProvider.DeleteMessages(messagesByDate);
-
+            
             var sender = new Sender(_logger);
             foreach (var message in messagesByDate)
             {
                 sender.Send(message);
             }
+
+            _messageDataProvider.DeleteMessages(messagesByDate);
         }
 
         public override void OnError(Exception exception)
