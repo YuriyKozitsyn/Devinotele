@@ -28,11 +28,11 @@ namespace Scheduler
 
         public override void Start()
         {
-            OnTimedEvent(null, null);
-           //var aTimer = new Timer(TimeSpan.FromSeconds(2).TotalMilliseconds);
-           // aTimer.Elapsed += OnTimedEvent;
-           // aTimer.AutoReset = true;
-           // aTimer.Enabled = true;
+            // OnTimedEvent(null, null);
+            var aTimer = new Timer(TimeSpan.FromMinutes(2).TotalMilliseconds);
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
         }
 
         private void OnTimedEvent(object s, ElapsedEventArgs e)
